@@ -1,5 +1,10 @@
-# Use a lightweight Nginx base image
-FROM nginx:alpine
+FROM python:3.10-slim
 
-# Copy custom HTML to Nginx's default serving path
-COPY index.html /usr/share/nginx/html/index.html
+WORKDIR /app
+
+COPY main.py .
+COPY index.html .
+
+RUN pip install fastapi uvicorn
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
